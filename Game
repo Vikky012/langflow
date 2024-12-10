@@ -1,0 +1,64 @@
+import pygame
+import sys
+
+# Initialize pygame
+pygame.init()
+
+# Set up the game window
+screen_width = 800
+screen_height = 600
+screen = pygame.display.set_mode((screen_width, screen_height))
+pygame.display.set_caption("Simple Game")
+
+# Set up colors
+white = (255, 255, 255)
+black = (0, 0, 0)
+red = (255, 0, 0)
+
+# Set up the player (a simple rectangle)
+player_width = 50
+player_height = 50
+player_x = screen_width // 2 - player_width // 2
+player_y = screen_height // 2 - player_height // 2
+player_speed = 5
+
+# Game loop
+running = True
+while running:
+    # Handle events
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = False
+
+    # Get key states
+    keys = pygame.key.get_pressed()
+
+    # Move the player rectangle
+    if keys[pygame.K_LEFT]:
+        player_x -= player_speed
+    if keys[pygame.K_RIGHT]:
+        player_x += player_speed
+    if keys[pygame.K_UP]:
+        player_y -= player_speed
+    if keys[pygame.K_DOWN]:
+        player_y += player_speed
+
+    # Ensure the player stays within the screen
+    player_x = max(0, min(player_x, screen_width - player_width))
+    player_y = max(0, min(player_y, screen_height - player_height))
+
+    # Fill the screen with white
+    screen.fill(white)
+
+    # Draw the player rectangle
+    pygame.draw.rect(screen, red, (player_x, player_y, player_width, player_height))
+
+    # Update the display
+    pygame.display.flip()
+
+    # Set the frame rate
+    pygame.time.Clock().tick(60)
+
+# Quit pygame
+pygame.quit()
+sys.exit()
